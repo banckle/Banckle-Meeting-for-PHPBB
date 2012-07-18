@@ -51,11 +51,13 @@ class acp_banckle_meeting
 					$data['active'] = 0;
 					$dbresult = $db->sql_query($sql);
 					
-					$contents = file_get_contents('../index.php');			
-				
-					$final_str =  str_replace("include_once('banckle_meeting_widget.php');","",$contents);
+					$contents = file_get_contents('../index.php');
 					
-					file_put_contents('../index.php',$final_str);										
+					if(strpos($contents,"include_once('banckle_meeting_widget.php');") !== FALSE)
+					{
+						$final_str =  str_replace("include_once('banckle_meeting_widget.php');"," ",$contents);
+						file_put_contents('../index.php',$final_str);										
+					}
 					
 				}
 				else
@@ -66,11 +68,12 @@ class acp_banckle_meeting
 					
 					$contents = file_get_contents('../index.php');
 					
-					$pos = strpos($contents,"page_footer();");
-					$final_str = substr($contents,0,$pos-1) . "include_once('banckle_meeting_widget.php');" . substr($contents,$pos,100);
-					
-					file_put_contents('../index.php',$final_str);
-					
+					if(strpos($contents,"include_once('banckle_meeting_widget.php');") === FALSE)
+					{
+						$pos = strpos($contents,"page_footer();");
+						$final_str = substr($contents,0,$pos-1) . " include_once('banckle_meeting_widget.php'); " . substr($contents,$pos,100);
+						file_put_contents('../index.php',$final_str);
+					}					
 				}				
 				
 				
