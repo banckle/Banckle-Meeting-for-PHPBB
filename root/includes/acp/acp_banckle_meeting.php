@@ -62,6 +62,12 @@ class acp_banckle_meeting
 				}
 				else
 				{
+					if($data['is_active'] == 1)
+					{
+						$sql = 'DELETE FROM phpbb_config WHERE config_name = \'banckle_meeting\'';					
+						$dbresult = $db->sql_query($sql);
+					}
+					
 					$sql = 'INSERT INTO phpbb_config SET config_name = \'banckle_meeting\', config_value = \''. mysql_real_escape_string($widget_code).'\'';
 					$dbresult = $db->sql_query($sql);					
 					$data['active'] = 1;
